@@ -18,7 +18,7 @@ export class AppComponent {
 
   ngOnInit() {
     this.ioService.setupSocketConnection();
-    this.ioService.socket.on('errorMsg', (msg) => {
+    this.ioService.socket.on('error_msg', (msg) => {
       this.dialog.open(ErrorDialogComponent, { data: {
         text: msg
       }});

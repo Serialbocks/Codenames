@@ -13,7 +13,7 @@ function disconnect(reason, username) {
 function changeUsername(oldName, newName, socket) {
     let index = users.indexOf(newName);
     if(index >= 0) {
-        socket.emit('errorMsg', 'Username is already in use.');
+        socket.emit('error_msg', 'Username is already in use.');
         socket.emit('username_unchanged');
         return false;
     }
