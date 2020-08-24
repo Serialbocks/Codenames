@@ -1,0 +1,10 @@
+<div class="lobby-container">
+    <h1>Lobby</h1>
+    <div class="lobby-field">
+        <mat-form-field style="width: calc(100% - 100px)">
+            <input [(ngModel)]="usernameEdit" (keydown.enter)="updateUsername()" type="text" matInput placeholder="Username">
+        </mat-form-field>
+        <button mat-raised-button style="margin-left: 7px;" (click)="updateUsername()">Update</button>
+    </div>
+
+</div>
