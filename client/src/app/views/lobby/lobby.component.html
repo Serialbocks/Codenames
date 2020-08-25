@@ -10,4 +10,15 @@
         {{usernameUpdatedText}}
     </div>
 
+    <h3>Game Sessions</h3>
+    <div class="lobby-field" style="display: flex; justify-content: flex-end;">
+        <button mat-raised-button>New Game</button>
+        <button mat-raised-button style="margin-left: 7px;">Refresh</button>
+    </div>
+
+    <div class="lobby-field session-list">
+        <div *ngIf="!gameSessions || gameSessions.length == 0">There are no game sessions currently active.</div>
+    </div>
+    
+
 </div>

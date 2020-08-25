@@ -11,6 +11,7 @@ export class LobbyComponent implements OnInit {
   public username: string;
   public usernameUpdatedText: string;
   public showUsernameNotification: boolean = true;
+  public gameSessions: any[];
   private storage: Storage;
 
   constructor(private ioService: SocketioService) { 
