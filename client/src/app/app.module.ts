@@ -7,12 +7,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ErrorDialogComponent } from './views/error-dialog/error-dialog.component';
 import { LobbyComponent } from './views/lobby/lobby.component';
 import { MaterialModule } from './material-module';
+import { NewGameDialogComponent } from './views/new-game-dialog/new-game-dialog.component';
+import { GameComponent } from './views/game/game.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ErrorDialogComponent,
-    LobbyComponent
+    LobbyComponent,
+    NewGameDialogComponent,
+    GameComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +28,8 @@ import { MaterialModule } from './material-module';
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [
-    ErrorDialogComponent
+    ErrorDialogComponent,
+    NewGameDialogComponent
   ]
 })
 export class AppModule { }

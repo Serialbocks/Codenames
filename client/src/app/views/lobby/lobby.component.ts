@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SocketioService } from 'src/app/services/socketio.service';
+import { MatDialog } from '@angular/material/dialog';
+import { NewGameDialogComponent } from '../new-game-dialog/new-game-dialog.component';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-lobby',
@@ -14,11 +17,12 @@ export class LobbyComponent implements OnInit {
   public gameSessions: any[];
   private storage: Storage;
 
-  constructor(private ioService: SocketioService) { 
+  constructor(private ioService: SocketioService, private dialog: MatDialog) { 
 
   }
 
   ngOnInit() {
+    // Handle username changed events
     this.ioService.socket.on('username_changed', () => {
       this.username = this.usernameEdit;
       this.storage.setItem('username', this.username);
@@ -28,7 +32,6 @@ export class LobbyComponent implements OnInit {
       }
       this.showUsernameNotification = true;
     });
-
     this.ioService.socket.on('username_unchanged', () => {
       this.usernameEdit = this.username;
       this.showUsernameNotification = true;
@@ -46,6 +49,27 @@ export class LobbyComponent implements OnInit {
   updateUsername() {
     if(this.username == this.usernameEdit) return;
     this.ioService.changeUsername(this.usernameEdit);
+  }
+
+  newGame() {
+    if(!this.username || this.username.length == 0) {
+      this.dialog.open(ErrorDialogComponent, {
+        data: {text: "Please enter a username before creating a game."},
+        width: '450px'
+      });
+      return;
+    }
+
+    let dialogResult = this.dialog.open(NewGameDialogComponent, {
+      data: {},
+      width: '500px'
+    });
+
+    dialogResult.afterClosed().subscribe((value) => {
+      if(!value) return;
+
+      this.ioService.socket.emit('create_new_session', value);
+    });
   }
 
 }

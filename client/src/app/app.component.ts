@@ -18,10 +18,20 @@ export class AppComponent {
 
   ngOnInit() {
     this.ioService.setupSocketConnection();
+
+    // Handle all error messages from the server
     this.ioService.socket.on('error_msg', (msg) => {
-      this.dialog.open(ErrorDialogComponent, { data: {
-        text: msg
-      }});
+      this.dialog.open(ErrorDialogComponent, { 
+        data: {
+          text: msg
+        },
+        width: '450px'
+      });
+    });
+
+    this.ioService.socket.on('enter_game_session', (roomName) => {
+      this.ioService.currentRoom = roomName;
+      this.currentPage = "game";
     });
   }
 

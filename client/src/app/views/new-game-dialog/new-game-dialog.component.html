@@ -1,0 +1,29 @@
+
+<div class="centered-container">
+    <h3>Create New Game</h3>
+    <mat-form-field style="width: 100%;">
+        <input color="secondary" matInput type="text" [(ngModel)]="roomName" placeholder="Room Name">
+    </mat-form-field>
+
+    <div>
+        <mat-label style="margin-right: 7px;">Use Custom Words</mat-label>
+        <mat-checkbox [(ngModel)]="useCustomWords" (change)="checkboxChanged()"></mat-checkbox>
+    </div>
+
+    <ng-container *ngIf="useCustomWords">
+        <mat-form-field style="width: 100%">
+            <mat-label>Enter words separated by new lines</mat-label>
+            <textarea [(ngModel)]="customWords" style="min-height: 200px;" (blur)="saveCustomWords()" matInput></textarea>
+        </mat-form-field>
+        <div style="margin-top: 15px;">Custom Word Frequency: {{customWordFrequency}}%</div>
+        <mat-slider style="width: 100%" min="1" max="100" step="1" 
+            [ngModel]="customWordFrequency" (input)="sliderChanged($event)"></mat-slider>
+    </ng-container>
+
+    <div style="color: red;">{{errorText}}</div>
+</div>
+
+<mat-dialog-actions class="right-aligned-container">
+    <button mat-raised-button (click)="dialogRef.close()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="createGame()">Create</button>
+</mat-dialog-actions>

@@ -1,0 +1,43 @@
+// Import material theming functions
+@import '~@angular/material/theming';
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+/**
+    MIXINS
+*/
+// Define a mixin that accepts a theme and outputs the theme-specific styles.
+@mixin custom-theme($theme) {
+    // Extract the palettes you need from the theme definition.
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+  
+    // Define any styles affected by the theme.
+    .color-primary { color: mat-color($primary); }
+    .color-accent { color: mat-color($accent); }
+    .color-warn { color: mat-color($warn); }
+    .background-primary { background-color: mat-color($primary); }
+    .background-accent { background-color: mat-color($accent); }
+    .background-warn { background-color: mat-color($warn); }
+    a { color: mat-color($primary); font-weight: bold; text-decoration: none; cursor: pointer; }
+  }
+
+
+// Copy the palettes from selected theme
+$app-primary: mat-palette($mat-blue);
+$app-accent:  mat-palette($mat-green, A200, A100, A400);
+$app-warn:    mat-palette($mat-red);
+
+
+// Create the theme object (a Sass map containing all of the palettes).
+$app-theme: mat-dark-theme($app-primary, $app-accent, $app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($app-theme);
+@include custom-theme($app-theme);
