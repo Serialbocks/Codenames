@@ -7,12 +7,13 @@ import { SocketioService } from 'src/app/services/socketio.service';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
+  public session: any;
 
   constructor(private ioService: SocketioService) { }
 
   ngOnInit() {
     this.ioService.socket.on('update_session_state', (session) => {
-      console.log(session);
+      this.session = session;
     });
     this.ioService.socket.emit('request_session_state');
   }

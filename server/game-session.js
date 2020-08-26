@@ -4,12 +4,23 @@ const helpers = require("./helpers.js");
 let users = {};
 let sessions = {};
 
-function sendSessionState(username) {
+function sendSessionStateToUser(username) {
     let user = users[username];
     let session = sessions[user.session];
     let isCardCzar = session.redTeam.indexOf(username) == 0 || session.blueTeam.indexOf(username) == 0;
     let boardState = helpers.getBoardStateFromSession(session, isCardCzar);
     user.socket.emit('update_session_state', boardState);
+}
+
+function sendSessionState(session) {
+    for(let i = 0; i < session.blueTeam.length; i++) {
+        let username = session.blueTeam[i];
+        sendSessionStateToUser(username);
+    }
+    for(let i = 0; i < session.redTeam.length; i++) {
+        let username = session.redTeam[i];
+        sendSessionStateToUser(username);
+    }
 }
 
 // username is optional. Send to everyone that's not in a game if not specified
@@ -25,6 +36,7 @@ function sendSessions(username) {
         });
     }
 
+    // Send to the user or all users not in a game
     if(username) {
         users[username].socket.emit('update_session_list', sessionsToSend);
     } else {
@@ -59,6 +71,8 @@ function disconnect(reason, username) {
                 session.host = session.redTeam[0];
             }
         }
+
+        sendSessionState(session);
 
         // If there are no users left in the session, remove it
         if(session.blueTeam.length == 0 && session.redTeam.length == 0) {
@@ -96,6 +110,8 @@ function joinSession(username, session) {
         session.redTeam.push(username);
     }
 
+    console.log(`${username} joined game ${session.roomName}`)
+    sendSessionState(session);
     user.socket.emit('enter_game_session', session.roomName);
 }
 
@@ -136,7 +152,7 @@ function setupSocketIo(server) {
             }
         });
         socket.on('create_new_session', (args) => { createNewSession(args, username); });
-        socket.on('request_session_state', () => { sendSessionState(username); });
+        socket.on('request_session_state', () => { sendSessionStateToUser(username); });
         socket.on('request_sessions', () => { sendSessions(username); });
         socket.on('join_session', (roomName) => { joinSession(username, sessions[roomName]); });
     });

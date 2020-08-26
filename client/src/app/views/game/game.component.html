@@ -1,1 +1,17 @@
-<p>game works!</p>
+<ng-container *ngIf="session">
+
+<div class="team">
+    <h1>Red Team</h1>
+    <div *ngFor="let user of session.redTeam">
+        {{user}}
+    </div>
+</div>
+
+<div class="team">
+    <h1>Blue Team</h1>
+    <div *ngFor="let user of session.blueTeam">
+        {{user}}
+    </div>
+</div>
+
+</ng-container>

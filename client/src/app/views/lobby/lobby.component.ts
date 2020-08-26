@@ -79,6 +79,13 @@ export class LobbyComponent implements OnInit {
   }
 
   joinSession(session) {
+    if(!this.username || this.username.length == 0) {
+      this.dialog.open(ErrorDialogComponent, {
+        data: {text: "Please enter a username before joining a game."},
+        width: '450px'
+      });
+      return;
+    }
     this.ioService.socket.emit('join_session', session.roomName);
   }
 
