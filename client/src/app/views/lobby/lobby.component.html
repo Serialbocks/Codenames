@@ -17,6 +17,10 @@
 
     <div class="lobby-field session-list">
         <div *ngIf="!gameSessions || gameSessions.length == 0">There are no game sessions currently active.</div>
+        <mat-card class="game-session" *ngFor="let session of gameSessions" (click)="joinSession(session)">
+            <div style="font-size: 20px; margin-bottom: 5px;">{{session.roomName}}</div>
+            <mat-card-subtitle>host: {{session.host}} | players: {{session.players}}</mat-card-subtitle>
+        </mat-card>
     </div>
     
 

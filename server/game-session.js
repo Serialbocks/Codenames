@@ -4,6 +4,40 @@ const helpers = require("./helpers.js");
 let users = {};
 let sessions = {};
 
+function sendSessionState(username) {
+    let user = users[username];
+    let session = sessions[user.session];
+    let isCardCzar = session.redTeam.indexOf(username) == 0 || session.blueTeam.indexOf(username) == 0;
+    let boardState = helpers.getBoardStateFromSession(session, isCardCzar);
+    user.socket.emit('update_session_state', boardState);
+}
+
+// username is optional. Send to everyone that's not in a game if not specified
+function sendSessions(username) {
+    // prepare list of sessions
+    let sessionsToSend = [];
+    for(const roomName in sessions) {
+        let session = sessions[roomName];
+        sessionsToSend.push({
+            roomName: roomName,
+            host: session.host,
+            players: session.redTeam.length + session.blueTeam.length
+        });
+    }
+
+    if(username) {
+        users[username].socket.emit('update_session_list', sessionsToSend);
+    } else {
+        for(const username in users) {
+            let user = users[username];
+            if(!user.session) {
+                user.socket.emit('update_session_list', sessionsToSend);
+            }
+        }
+    }
+
+}
+
 function disconnect(reason, username) {
     let user = users[username];
     if(user.session) {
@@ -18,10 +52,19 @@ function disconnect(reason, username) {
             session.redTeam.splice(index, 1);
         }
 
+        if(session.host == username) {
+            if(session.blueTeam.length > 0) {
+                session.host = session.blueTeam[0];
+            } else if(session.redTeam.length > 0) {
+                session.host = session.redTeam[0];
+            }
+        }
+
         // If there are no users left in the session, remove it
         if(session.blueTeam.length == 0 && session.redTeam.length == 0) {
             console.log(`session ${session.roomName} deleted`);
             delete sessions[user.session];
+            sendSessions();
         }
     }
 
@@ -66,12 +109,7 @@ function createNewSession(args, username) {
     sessions[args.roomName] = helpers.setupSessionObject(args, username);
     joinSession(username, sessions[args.roomName]);
     console.log(`${username} created a new room ${args.roomName}`);
-}
-
-function sendSessionState(username) {
-    let user = users[username];
-    let session = sessions[user.session];
-    user.socket.emit('update_session_state', session);
+    sendSessions();
 }
 
 function setupSocketIo(server) {
@@ -99,6 +137,8 @@ function setupSocketIo(server) {
         });
         socket.on('create_new_session', (args) => { createNewSession(args, username); });
         socket.on('request_session_state', () => { sendSessionState(username); });
+        socket.on('request_sessions', () => { sendSessions(username); });
+        socket.on('join_session', (roomName) => { joinSession(username, sessions[roomName]); });
     });
 }
 

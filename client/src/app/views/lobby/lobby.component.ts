@@ -36,6 +36,10 @@ export class LobbyComponent implements OnInit {
       this.usernameEdit = this.username;
       this.showUsernameNotification = true;
     });
+    this.ioService.socket.on('update_session_list', (sessions) => {
+      this.gameSessions = sessions;
+      console.log(sessions);
+    });
 
     this.storage = window.localStorage;
     this.usernameEdit = this.storage.getItem('username');
@@ -44,6 +48,8 @@ export class LobbyComponent implements OnInit {
       this.showUsernameNotification = false;
       this.updateUsername();
     }
+
+    this.ioService.socket.emit('request_sessions');
   }
 
   updateUsername() {
@@ -70,6 +76,10 @@ export class LobbyComponent implements OnInit {
 
       this.ioService.socket.emit('create_new_session', value);
     });
+  }
+
+  joinSession(session) {
+    this.ioService.socket.emit('join_session', session.roomName);
   }
 
 }
