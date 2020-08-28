@@ -2,7 +2,7 @@
 
     <div class="header">
         <div class="red-team team">
-            <div *ngFor="let user of session.redTeam">
+            <div class="team-member" *ngFor="let user of session.redTeam" (click)="makeCzar(user, 'red')">
                 {{user}}{{user == session.host ? ' (host)' : ''}}
             </div>
         </div>
@@ -15,7 +15,7 @@
         </div>
 
         <div class="blue-team team">
-            <div *ngFor="let user of session.blueTeam">
+            <div class="team-member" *ngFor="let user of session.blueTeam" (click)="makeCzar(user, 'red')">
                 {{user}}{{user == session.host ? ' (host)' : ''}}
             </div>
         </div>

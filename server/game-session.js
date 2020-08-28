@@ -182,6 +182,25 @@ function selectCard(index, username) {
     }
 }
 
+function makeUserCzar(data, username) {
+    let user = users[username];
+    let session = sessions[user.session];
+    if(data.team == "red") {
+        let index = session.redTeam.indexOf(data.username);
+        if(index > 0) {
+            session.redTeam.splice(index, 1);
+            session.redTeam.unshift(data.username);
+        }
+    } else {
+        let index = session.blueTeam.indexOf(data.username);
+        if(index > 0) {
+            session.blueTeam.splice(index, 1);
+            session.blueTeam.unshift(data.username);
+        }
+    }
+    sendSessionState(session);
+}
+
 function setupSocketIo(server) {
     const io = socketio(server);
 
@@ -213,6 +232,7 @@ function setupSocketIo(server) {
         socket.on('randomize_teams', () => { randomizeTeams(username); });
         socket.on('reveal_card', (index) => { revealCard(index, username); });
         socket.on('select_card', (index) => { selectCard(index, username); });
+        socket.on('make_user_czar', (data) => { makeUserCzar(data, username) });
     });
 }
 

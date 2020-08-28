@@ -8,6 +8,11 @@
         border: 3px solid;
         border-radius: 3px;
         padding: 7px;
+
+        .team-member {
+            cursor: pointer;
+            user-select: none;
+        }
     }
     
     .red-team {

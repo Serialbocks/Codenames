@@ -58,4 +58,11 @@ export class GameComponent implements OnInit {
     }
   }
 
+  makeCzar(username, color) {
+    let isHost = this.username == this.session.host;
+    if(isHost) {
+      this.ioService.socket.emit('make_user_czar', {username: username, team: color});
+    }
+  }
+
 }
