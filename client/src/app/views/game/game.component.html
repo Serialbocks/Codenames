@@ -1,17 +1,35 @@
-<ng-container *ngIf="session">
+<div class="centered-container" *ngIf="session">
 
-<div class="team">
-    <h1>Red Team</h1>
-    <div *ngFor="let user of session.redTeam">
-        {{user}}
+    <div class="header">
+        <div class="red-team team">
+            <div *ngFor="let user of session.redTeam">
+                {{user}}{{user == session.host ? ' (host)' : ''}}
+            </div>
+        </div>
+
+        <div class="controls">
+            <ng-container *ngIf="username == session.host">
+                <button mat-raised-button (click)="newGame()">New Game</button>
+                <button class="randomize-teams" mat-raised-button (click)="randomizeTeams()">Randomize Teams</button>
+            </ng-container>
+        </div>
+
+        <div class="blue-team team">
+            <div *ngFor="let user of session.blueTeam">
+                {{user}}{{user == session.host ? ' (host)' : ''}}
+            </div>
+        </div>
     </div>
-</div>
 
-<div class="team">
-    <h1>Blue Team</h1>
-    <div *ngFor="let user of session.blueTeam">
-        {{user}}
+    <div class="game">
+        <ng-container *ngFor="let rowIndex of rows">
+            <div class="game-row">
+                <mat-card class="word" *ngFor="let columnIndex of rows;">
+                    <div>{{session.board[(rowIndex * columnIndex) - 1].word}}</div>
+                </mat-card>
+            </div>
+        </ng-container>
+        
     </div>
-</div>
 
-</ng-container>
+</div>

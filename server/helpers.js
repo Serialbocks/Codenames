@@ -71,8 +71,30 @@ function getBoardStateFromSession(session, isCardCzar) {
     return toReturn;
 }
 
+function randomizeTeams(session) {
+    let allTeams = session.blueTeam.concat(session.redTeam);
+    let isRed = Math.floor(Math.random() * 2) == 1;
+    let newBlueTeam = [];
+    let newRedTeam = [];
+    for(let i = 0; i < session.blueTeam.length + session.redTeam.length; i++) {
+        let index = Math.floor(Math.random() * allTeams.length);
+        if(isRed) {
+            newRedTeam.push(allTeams[index])
+        } else {
+            newBlueTeam.push(allTeams[index]);
+        }
+        isRed = !isRed;
+        allTeams.splice(index, 1);
+    }
+
+    session.redTeam = newRedTeam;
+    session.blueTeam = newBlueTeam;
+    return session;
+}
+
 module.exports = {
     setupSessionObject: setupSessionObject,
     randomizeBoard: randomizeBoard,
-    getBoardStateFromSession: getBoardStateFromSession
+    getBoardStateFromSession: getBoardStateFromSession,
+    randomizeTeams: randomizeTeams
 };

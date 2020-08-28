@@ -72,6 +72,7 @@ function disconnect(reason, username) {
             }
         }
 
+        sendSessions();
         sendSessionState(session);
 
         // If there are no users left in the session, remove it
@@ -128,6 +129,31 @@ function createNewSession(args, username) {
     sendSessions();
 }
 
+function newGame(username) {
+    let user = users[username];
+    let session = sessions[user.session];
+    if(session.host != username) {
+        user.socket.emit('error_msg', 'Only the host can start a new game.');
+        return;
+    }
+
+    session = helpers.randomizeBoard(session);
+    sessions[user.session] = session;
+    sendSessionState(session);
+}
+
+function randomizeTeams(username) {
+    let user = users[username];
+    let session = sessions[user.session];
+    if(session.host != username) {
+        user.socket.emit('error_msg', 'Only the host can randomize teams.');
+        return;
+    }
+    session = helpers.randomizeTeams(session);
+    sessions[user.session] = session;
+    sendSessionState(session);
+}
+
 function setupSocketIo(server) {
     const io = socketio(server);
 
@@ -155,6 +181,8 @@ function setupSocketIo(server) {
         socket.on('request_session_state', () => { sendSessionStateToUser(username); });
         socket.on('request_sessions', () => { sendSessions(username); });
         socket.on('join_session', (roomName) => { joinSession(username, sessions[roomName]); });
+        socket.on('new_game', () => { newGame(username); });
+        socket.on('randomize_teams', () => { randomizeTeams(username); });
     });
 }
 

@@ -38,7 +38,6 @@ export class LobbyComponent implements OnInit {
     });
     this.ioService.socket.on('update_session_list', (sessions) => {
       this.gameSessions = sessions;
-      console.log(sessions);
     });
 
     this.storage = window.localStorage;

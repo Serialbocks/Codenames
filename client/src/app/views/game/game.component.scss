@@ -1,0 +1,89 @@
+.header {
+    margin-top: 25px;
+    width: 80%;
+    display: flex;
+
+    .team {
+        width: 30%;
+        border: 3px solid;
+        border-radius: 3px;
+        padding: 7px;
+    }
+    
+    .red-team {
+        border-color: red;
+    }
+    
+    .blue-team {
+        border-color: blue;
+    }
+
+    .controls {
+        width: 40%;
+        padding: 7px;
+        display: flex;
+        justify-content: center;
+
+        .randomize-teams {
+            margin-left: 3px;
+        }
+    }
+}
+
+.game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 25px;
+    width: 90%;
+
+    .game-row {
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .word {
+        width: 15%;
+        margin-left: 1%;
+        margin-top: 9px;
+        height: 50px;
+        word-break: break-all;
+    }
+}
+
+@media(min-width: 801px) {
+    .game {
+        width: 90%;
+    
+        .word {
+            font-size: 16px;
+        }
+    }
+}
+
+@media(max-width: 800px) {
+
+    .game {
+        width: 98%;
+        .word {
+            font-size: 12px;
+        }
+    }
+
+
+    .header {
+        width: 100%;
+    }
+    
+    .controls {
+        flex-direction: column;
+        align-items: center;
+
+        .randomize-teams {
+            margin-top: 5px;
+        }
+    }
+}
+
+
