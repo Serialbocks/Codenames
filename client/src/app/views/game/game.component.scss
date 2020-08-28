@@ -1,6 +1,6 @@
 .header {
     margin-top: 25px;
-    width: 80%;
+    width: 90%;
     display: flex;
 
     .team {
@@ -35,7 +35,6 @@
     flex-direction: column;
     align-items: center;
     margin-top: 25px;
-    width: 90%;
 
     .game-row {
         width: 100%;
@@ -80,7 +79,7 @@
     }
     .word.revealed.blue {
         background-color: #03039c;
-        color: black;
+        color: white;
     }
     .word.revealed.black {
         background-color: black;
@@ -118,7 +117,7 @@
 
 
     .header {
-        width: 100%;
+        width: 98%;
     }
     
     .controls {

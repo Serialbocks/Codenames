@@ -166,6 +166,22 @@ function revealCard(index, username) {
     sendSessionState(session);
 }
 
+function selectCard(index, username) {
+    let user = users[username];
+    let session = sessions[user.session];
+    let card = session.board[index];
+    let message = `${username} selected ${card.word}`;
+
+    for(var i = 0; i < session.redTeam.length; i++) {
+        let redUser = users[session.redTeam[i]];
+        redUser.socket.emit('user_selected', message);
+    }
+    for(var i = 0; i < session.blueTeam.length; i++) {
+        let blueUser = users[session.blueTeam[i]];
+        blueUser.socket.emit('user_selected', message);
+    }
+}
+
 function setupSocketIo(server) {
     const io = socketio(server);
 
@@ -196,6 +212,7 @@ function setupSocketIo(server) {
         socket.on('new_game', () => { newGame(username); });
         socket.on('randomize_teams', () => { randomizeTeams(username); });
         socket.on('reveal_card', (index) => { revealCard(index, username); });
+        socket.on('select_card', (index) => { selectCard(index, username); });
     });
 }
 
