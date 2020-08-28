@@ -18,7 +18,7 @@ export class GameComponent implements OnInit {
 
   ngOnInit() {
     this.storage = window.localStorage;
-    this.username = this.storage.getItem('username');
+    this.username = this.ioService.username;
 
     this.ioService.socket.on('user_selected', (message) => {
       if(this.cardSelectedMessages.indexOf(message) >= 0) {

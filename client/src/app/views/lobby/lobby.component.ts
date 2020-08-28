@@ -11,7 +11,7 @@ import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 })
 export class LobbyComponent implements OnInit {
   public usernameEdit: string;
-  public username: string;
+  //public username: string;
   public usernameUpdatedText: string;
   public showUsernameNotification: boolean = true;
   public gameSessions: any[];
@@ -24,8 +24,8 @@ export class LobbyComponent implements OnInit {
   ngOnInit() {
     // Handle username changed events
     this.ioService.socket.on('username_changed', () => {
-      this.username = this.usernameEdit;
-      this.storage.setItem('username', this.username);
+      this.ioService.username = this.usernameEdit;
+      this.storage.setItem('username', this.ioService.username);
       if(this.showUsernameNotification) {
         this.usernameUpdatedText = "Username updated!";
         setTimeout(() => {this.usernameUpdatedText = '';}, 3000);
@@ -33,7 +33,7 @@ export class LobbyComponent implements OnInit {
       this.showUsernameNotification = true;
     });
     this.ioService.socket.on('username_unchanged', () => {
-      this.usernameEdit = this.username;
+      this.usernameEdit = this.ioService.username;
       this.showUsernameNotification = true;
     });
     this.ioService.socket.on('update_session_list', (sessions) => {
@@ -52,12 +52,12 @@ export class LobbyComponent implements OnInit {
   }
 
   updateUsername() {
-    if(this.username == this.usernameEdit) return;
+    if(this.ioService.username == this.usernameEdit) return;
     this.ioService.changeUsername(this.usernameEdit);
   }
 
   newGame() {
-    if(!this.username || this.username.length == 0) {
+    if(!this.ioService.username || this.ioService.username.length == 0) {
       this.dialog.open(ErrorDialogComponent, {
         data: {text: "Please enter a username before creating a game."},
         width: '450px'
@@ -78,7 +78,7 @@ export class LobbyComponent implements OnInit {
   }
 
   joinSession(session) {
-    if(!this.username || this.username.length == 0) {
+    if(!this.ioService.username || this.ioService.username.length == 0) {
       this.dialog.open(ErrorDialogComponent, {
         data: {text: "Please enter a username before joining a game."},
         width: '450px'

@@ -8,6 +8,7 @@ import * as io from 'socket.io-client';
 export class SocketioService {
   public socket: any;
   public currentRoom: string;
+  public username: string;
 
   constructor() { }
 
