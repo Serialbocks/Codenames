@@ -24,8 +24,13 @@
     <div class="game">
         <ng-container *ngFor="let rowIndex of rows">
             <div class="game-row">
-                <mat-card class="word" *ngFor="let columnIndex of rows;">
-                    <div>{{session.board[(rowIndex * columnIndex) - 1].word}}</div>
+                <mat-card class="word" *ngFor="let columnIndex of rows;" (click)="cardClicked((rowIndex * 5) + columnIndex)"
+                    [class.red]="session.board[(rowIndex * 5) + columnIndex].color == 'red'"
+                    [class.blue]="session.board[(rowIndex * 5) + columnIndex].color == 'blue'"
+                    [class.white]="session.board[(rowIndex * 5) + columnIndex].color == 'white'"
+                    [class.black]="session.board[(rowIndex * 5) + columnIndex].color == 'black'"
+                    [class.revealed]="session.board[(rowIndex * 5) + columnIndex].revealed">
+                    <div class="word-text">{{session.board[(rowIndex * 5) + columnIndex].word}}</div>
                 </mat-card>
             </div>
         </ng-container>

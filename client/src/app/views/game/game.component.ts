@@ -9,7 +9,7 @@ import { SocketioService } from 'src/app/services/socketio.service';
 export class GameComponent implements OnInit {
   public session: any;
   public username: string;
-  public rows = [1, 2, 3, 4, 5];
+  public rows = [0, 1, 2, 3, 4];
 
   private storage: Storage;
 
@@ -31,6 +31,14 @@ export class GameComponent implements OnInit {
 
   newGame() {
     this.ioService.socket.emit('new_game');
+  }
+
+  cardClicked(index) {
+    let card = this.session.board[index];
+    let isCzar = this.username == this.session.redTeam[0] || this.username == this.session.blueTeam[0];
+    if(isCzar) {
+      this.ioService.socket.emit('reveal_card', index);
+    }
   }
 
 }

@@ -154,6 +154,18 @@ function randomizeTeams(username) {
     sendSessionState(session);
 }
 
+function revealCard(index, username) {
+    let user = users[username];
+    let session = sessions[user.session];
+    if(username != session.redTeam[0] && username != session.blueTeam[0]) {
+        user.socket.emit('error_msg', 'Only a card czar can reveal a card.');
+        return;
+    }
+
+    session.board[index].revealed = !session.board[index].revealed;
+    sendSessionState(session);
+}
+
 function setupSocketIo(server) {
     const io = socketio(server);
 
@@ -183,6 +195,7 @@ function setupSocketIo(server) {
         socket.on('join_session', (roomName) => { joinSession(username, sessions[roomName]); });
         socket.on('new_game', () => { newGame(username); });
         socket.on('randomize_teams', () => { randomizeTeams(username); });
+        socket.on('reveal_card', (index) => { revealCard(index, username); });
     });
 }
 

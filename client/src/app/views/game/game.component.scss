@@ -49,8 +49,53 @@
         margin-top: 9px;
         height: 50px;
         word-break: break-all;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+
+        .word-text {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+    }
+
+    .word.red {
+        color: red;
+    }
+    .word.blue {
+        color: #03039c;
+    }
+    .word.black {
+        color: black;
+    }
+    .word.white {
+        color: white;
+    }
+    .word.revealed.red {
+        background-color: red;
+        color: black;
+    }
+    .word.revealed.blue {
+        background-color: #03039c;
+        color: black;
+    }
+    .word.revealed.black {
+        background-color: black;
+        color: white;
+    }
+    .word.revealed.white {
+        background-color: white;
+        color: black;
+    }
+
+    .word:hover {
+        background: #585858;
     }
 }
+
 
 @media(min-width: 801px) {
     .game {
