@@ -9,7 +9,7 @@ function randomizeBoard(session) {
                        "white", "white", "white", "white", "white", "white", "white",
                        "black"];
     session.startingTeam = Math.floor(Math.random() * 2) == 0 ? "red" : "blue";
-    bagOfColors.push(session.startingTeam);
+    bagOfColors.push(session.startingTeam); // The starting team has one more card to guess
     let wordArray = [];
     // Select 25 random words
     for(let i = 0; i < 25; i++) {
@@ -31,6 +31,27 @@ function randomizeBoard(session) {
     }
     session.board = wordArray;
 
+    return session;
+}
+
+function randomizeTeams(session) {
+    let allTeams = session.blueTeam.concat(session.redTeam);
+    let isRed = Math.floor(Math.random() * 2) == 1;
+    let newBlueTeam = [];
+    let newRedTeam = [];
+    for(let i = 0; i < session.blueTeam.length + session.redTeam.length; i++) {
+        let index = Math.floor(Math.random() * allTeams.length);
+        if(isRed) {
+            newRedTeam.push(allTeams[index])
+        } else {
+            newBlueTeam.push(allTeams[index]);
+        }
+        isRed = !isRed;
+        allTeams.splice(index, 1);
+    }
+
+    session.redTeam = newRedTeam;
+    session.blueTeam = newBlueTeam;
     return session;
 }
 
@@ -69,27 +90,6 @@ function getBoardStateFromSession(session, isCardCzar) {
         toReturn.board.push(objToPush);
     }
     return toReturn;
-}
-
-function randomizeTeams(session) {
-    let allTeams = session.blueTeam.concat(session.redTeam);
-    let isRed = Math.floor(Math.random() * 2) == 1;
-    let newBlueTeam = [];
-    let newRedTeam = [];
-    for(let i = 0; i < session.blueTeam.length + session.redTeam.length; i++) {
-        let index = Math.floor(Math.random() * allTeams.length);
-        if(isRed) {
-            newRedTeam.push(allTeams[index])
-        } else {
-            newBlueTeam.push(allTeams[index]);
-        }
-        isRed = !isRed;
-        allTeams.splice(index, 1);
-    }
-
-    session.redTeam = newRedTeam;
-    session.blueTeam = newBlueTeam;
-    return session;
 }
 
 module.exports = {

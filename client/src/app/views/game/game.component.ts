@@ -10,14 +10,12 @@ export class GameComponent implements OnInit {
   public session: any;
   public username: string;
   public cardSelectedMessages: string[] = [];
-  public rows = [0, 1, 2, 3, 4];
+  public rowIndexes = [0, 1, 2, 3, 4];
 
-  private storage: Storage;
 
   constructor(private ioService: SocketioService) { }
 
   ngOnInit() {
-    this.storage = window.localStorage;
     this.username = this.ioService.username;
 
     this.ioService.socket.on('user_selected', (message) => {

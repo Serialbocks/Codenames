@@ -22,9 +22,9 @@
     </div>
 
     <div class="game">
-        <ng-container *ngFor="let rowIndex of rows">
+        <ng-container *ngFor="let rowIndex of rowIndexes">
             <div class="game-row">
-                <mat-card class="word" *ngFor="let columnIndex of rows;" (click)="cardClicked((rowIndex * 5) + columnIndex)"
+                <mat-card class="word" *ngFor="let columnIndex of rowIndexes;" (click)="cardClicked((rowIndex * 5) + columnIndex)"
                     [class.red]="session.board[(rowIndex * 5) + columnIndex].color == 'red'"
                     [class.blue]="session.board[(rowIndex * 5) + columnIndex].color == 'blue'"
                     [class.white]="session.board[(rowIndex * 5) + columnIndex].color == 'white'"

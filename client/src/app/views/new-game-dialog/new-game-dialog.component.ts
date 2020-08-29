@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-new-game-dialog',
@@ -34,6 +35,16 @@ export class NewGameDialogComponent implements OnInit {
     let useCustomWords = this.storage.getItem("use-custom-words");
     if(useCustomWords) {
       this.useCustomWords = useCustomWords == "true";
+    }
+    let roomName = this.storage.getItem('room-name');
+    if(roomName) {
+      this.roomName = roomName;
+    }
+  }
+
+  saveRoomName() {
+    if(this.roomName) {
+      this.storage.setItem('room-name', this.roomName);
     }
   }
 

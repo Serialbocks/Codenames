@@ -2,7 +2,9 @@
 <div class="centered-container">
     <h3>Create New Game</h3>
     <mat-form-field style="width: 100%;">
-        <input name="game-name" autocomplete="off" color="secondary" matInput type="text" [(ngModel)]="roomName" placeholder="Room Name">
+        <input name="game-name" autocomplete="off" color="secondary" matInput type="text" 
+            [(ngModel)]="roomName" placeholder="Room Name" (keydown.enter)="createGame()"
+            (blur)="saveRoomName()">
     </mat-form-field>
 
     <div>
