@@ -7,7 +7,7 @@ let sessions = {};
 function sendSessionStateToUser(username) {
     let user = users[username];
     let session = sessions[user.session];
-    let isCardCzar = session.redTeam.indexOf(username) == 0 || session.blueTeam.indexOf(username) == 0;
+    let isCardCzar = session.redCzar == username || session.blueCzar == username;
     let boardState = helpers.getBoardStateFromSession(session, isCardCzar);
     user.socket.emit('update_session_state', boardState);
 }
@@ -52,6 +52,10 @@ function sendSessions(username) {
 
 function disconnect(reason, username) {
     let user = users[username];
+
+    // Remove the user
+    delete users[username];
+    console.log(`${username} disconnected`);
     if(user.session) {
         // remove user from session
         let session = sessions[user.session];
@@ -64,6 +68,7 @@ function disconnect(reason, username) {
             session.redTeam.splice(index, 1);
         }
 
+        // If the host leaves, reassign
         if(session.host == username) {
             if(session.blueTeam.length > 0) {
                 session.host = session.blueTeam[0];
@@ -82,10 +87,6 @@ function disconnect(reason, username) {
             sendSessions();
         }
     }
-
-    // Remove the user
-    delete users[username];
-    console.log(`${username} disconnected`);
 }
 
 function changeUsername(oldName, newName, socket) {
@@ -105,10 +106,27 @@ function changeUsername(oldName, newName, socket) {
 function joinSession(username, session) {
     let user = users[username];
     user.session = session.roomName;
-    if(session.blueTeam.length < session.redTeam.length) {
-        session.blueTeam.push(username);
+    if(session.blueTeam.length < session.redTeam.length
+        || session.blueCzar == username) {
+        if(session.blueCzar == username) {
+            session.blueTeam.unshift(username);
+        }
+        else {
+            session.blueTeam.push(username);
+            if(!session.blueCzar) {
+                session.blueCzar = username;
+            }
+        }
     } else {
-        session.redTeam.push(username);
+        if(session.redCzar == username) {
+            session.redTeam.unshift(username);
+        } else {
+            session.redTeam.push(username);
+            if(!session.redCzar) {
+                session.redCzar = username;
+            }
+        }
+
     }
 
     console.log(`${username} joined game ${session.roomName}`)
@@ -124,8 +142,8 @@ function createNewSession(args, username) {
     }
 
     sessions[args.roomName] = helpers.setupSessionObject(args, username);
-    joinSession(username, sessions[args.roomName]);
     console.log(`${username} created a new room ${args.roomName}`);
+    joinSession(username, sessions[args.roomName]);
     sendSessions();
 }
 
@@ -157,7 +175,7 @@ function randomizeTeams(username) {
 function revealCard(index, username) {
     let user = users[username];
     let session = sessions[user.session];
-    if(username != session.redTeam[0] && username != session.blueTeam[0]) {
+    if(username != session.redCzar && username != session.blueCzar) {
         user.socket.emit('error_msg', 'Only a card czar can reveal a card.');
         return;
     }
@@ -191,12 +209,14 @@ function makeUserCzar(data, username) {
             session.redTeam.splice(index, 1);
             session.redTeam.unshift(data.username);
         }
+        session.redCzar = data.username;
     } else {
         let index = session.blueTeam.indexOf(data.username);
         if(index > 0) {
             session.blueTeam.splice(index, 1);
             session.blueTeam.unshift(data.username);
         }
+        session.blueCzar = data.username;
     }
     sendSessionState(session);
 }

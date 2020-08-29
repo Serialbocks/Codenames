@@ -52,6 +52,18 @@ function randomizeTeams(session) {
 
     session.redTeam = newRedTeam;
     session.blueTeam = newBlueTeam;
+
+    if(session.redTeam.length > 0) {
+        session.redCzar = session.redTeam[0];
+    } else {
+        session.redCzar = undefined;
+    }
+    if(session.blueTeam.length > 0) {
+        session.blueCzar = session.blueTeam[0];
+    } else {
+        session.blueCzar = undefined;
+    }
+
     return session;
 }
 
@@ -74,6 +86,8 @@ function getBoardStateFromSession(session, isCardCzar) {
         host: session.host,
         redTeam: session.redTeam,
         blueTeam: session.blueTeam,
+        redCzar: session.redCzar,
+        blueCzar: session.blueCzar,
         board: []
     };
 

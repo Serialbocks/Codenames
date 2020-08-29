@@ -47,7 +47,7 @@ export class GameComponent implements OnInit {
   }
 
   cardClicked(index) {
-    let isCzar = this.username == this.session.redTeam[0] || this.username == this.session.blueTeam[0];
+    let isCzar = this.username == this.session.redCzar || this.username == this.session.blueCzar;
     if(isCzar) {
       this.ioService.socket.emit('reveal_card', index);
     } else {
