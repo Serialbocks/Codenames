@@ -36,7 +36,6 @@ export class GameComponent implements OnInit {
 
     this.ioService.socket.on('update_session_state', (session) => {
       this.session = session;
-      console.log(session);
     });
     this.ioService.socket.emit('request_session_state');
   }
