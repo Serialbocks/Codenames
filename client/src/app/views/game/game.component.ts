@@ -34,6 +34,19 @@ export class GameComponent implements OnInit {
 
     this.ioService.socket.on('update_session_state', (session) => {
       this.session = session;
+      this.session.redCount = 0;
+      this.session.blueCount = 0;
+      for(var i = 0; i < session.board.length; i++) {
+        let card = session.board[i];
+        if(card.color == "red" && !card.revealed) {
+          this.session.redCount++;
+        }
+        if(card.color == "blue" && !card.revealed) {
+          this.session.blueCount++;
+        }
+
+      }
+
     });
     this.ioService.socket.emit('request_session_state');
   }

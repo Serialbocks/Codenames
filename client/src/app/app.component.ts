@@ -33,6 +33,16 @@ export class AppComponent {
       this.ioService.currentRoom = roomName;
       this.currentPage = "game";
     });
+
+    this.ioService.socket.on('disconnect', () => {
+      this.currentPage = 'lobby';
+      this.dialog.open(ErrorDialogComponent, { 
+        data: {
+          text: 'You have disconnected. Please refresh your page.'
+        },
+        width: '450px'
+      });
+    });
   }
 
 }

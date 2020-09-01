@@ -1,11 +1,15 @@
 <div class="centered-container" *ngIf="session">
 
     <div class="header">
-        <div class="red-team team">
-            <div class="team-member" *ngFor="let user of session.redTeam" (click)="makeCzar(user, 'red')">
-                {{user}}{{user == session.host ? ' (host)' : ''}}
+        <div class="team-container">
+            <div class="red-team team">
+                <div class="team-member" *ngFor="let user of session.redTeam" (click)="makeCzar(user, 'red')">
+                    {{user}}{{user == session.host ? ' (host)' : ''}}
+                </div>
             </div>
+            <div>{{'Cards remaining: ' + session.redCount}}</div>
         </div>
+
 
         <div class="controls">
             <ng-container *ngIf="username == session.host">
@@ -14,11 +18,15 @@
             </ng-container>
         </div>
 
-        <div class="blue-team team">
-            <div class="team-member" *ngFor="let user of session.blueTeam" (click)="makeCzar(user, 'blue')">
-                {{user}}{{user == session.host ? ' (host)' : ''}}
+        <div class="team-container">
+            <div class="blue-team team">
+                <div class="team-member" *ngFor="let user of session.blueTeam" (click)="makeCzar(user, 'blue')">
+                    {{user}}{{user == session.host ? ' (host)' : ''}}
+                </div>
             </div>
+            <div>{{'Cards remaining: ' + session.blueCount}}</div>
         </div>
+
     </div>
 
     <div class="game">

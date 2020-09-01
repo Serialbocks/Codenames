@@ -6,7 +6,9 @@ let sessions = {};
 
 function sendSessionStateToUser(username) {
     let user = users[username];
+    if(!user) return;
     let session = sessions[user.session];
+    if(!session) return;
     let isCardCzar = session.redCzar == username || session.blueCzar == username;
     let boardState = helpers.getBoardStateFromSession(session, isCardCzar);
     user.socket.emit('update_session_state', boardState);
@@ -52,6 +54,7 @@ function sendSessions(username) {
 
 function disconnect(reason, username) {
     let user = users[username];
+    if(!user) return;
 
     // Remove the user
     delete users[username];
@@ -105,6 +108,7 @@ function changeUsername(oldName, newName, socket) {
 
 function joinSession(username, session) {
     let user = users[username];
+    if(!user) return;
     user.session = session.roomName;
     if(session.blueTeam.length < session.redTeam.length
         || session.blueCzar == username) {
@@ -136,6 +140,7 @@ function joinSession(username, session) {
 
 function createNewSession(args, username) {
     let user = users[username];
+    if(!user) return;
     if(sessions[args.roomName] !== undefined) {
         user.socket.emit('error_msg', `A room named "${args.roomName}" already exists.`);
         return;
@@ -149,7 +154,9 @@ function createNewSession(args, username) {
 
 function newGame(username) {
     let user = users[username];
+    if(!user) return;
     let session = sessions[user.session];
+    if(!session) return;
     if(session.host != username) {
         user.socket.emit('error_msg', 'Only the host can start a new game.');
         return;
@@ -162,7 +169,9 @@ function newGame(username) {
 
 function randomizeTeams(username) {
     let user = users[username];
+    if(!user) return;
     let session = sessions[user.session];
+    if(!session) return;
     if(session.host != username) {
         user.socket.emit('error_msg', 'Only the host can randomize teams.');
         return;
@@ -174,7 +183,9 @@ function randomizeTeams(username) {
 
 function revealCard(index, username) {
     let user = users[username];
+    if(!user) return;
     let session = sessions[user.session];
+    if(!session) return;
     if(username != session.redCzar && username != session.blueCzar) {
         user.socket.emit('error_msg', 'Only a card czar can reveal a card.');
         return;
@@ -186,7 +197,9 @@ function revealCard(index, username) {
 
 function selectCard(index, username) {
     let user = users[username];
+    if(!user) return;
     let session = sessions[user.session];
+    if(!session) return;
     let card = session.board[index];
     let message = `${username} selected ${card.word}`;
 
@@ -202,7 +215,9 @@ function selectCard(index, username) {
 
 function makeUserCzar(data, username) {
     let user = users[username];
+    if(!user) return;
     let session = sessions[user.session];
+    if(!session) return;
     if(data.team == "red") {
         let index = session.redTeam.indexOf(data.username);
         if(index > 0) {

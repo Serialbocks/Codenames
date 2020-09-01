@@ -3,11 +3,16 @@
     width: 90%;
     display: flex;
 
-    .team {
+    .team-container {
         width: 30%;
+    }
+
+    .team {
+        width: 100%;
         border: 3px solid;
         border-radius: 3px;
         padding: 7px;
+        min-height: 19px;
 
         .team-member {
             cursor: pointer;
@@ -71,7 +76,7 @@
         color: red;
     }
     .word.blue {
-        color: blue;
+        color: #5656ff;
     }
     .word.black {
         color: black;
