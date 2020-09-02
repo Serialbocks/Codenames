@@ -7,7 +7,7 @@
                     {{user}}{{user == session.host ? ' (host)' : ''}}
                 </div>
             </div>
-            <div>{{'Cards remaining: ' + session.redCount}}</div>
+            <div style="margin-top: 5px;">{{'Cards remaining: ' + session.redCount}}</div>
         </div>
 
 
@@ -24,7 +24,7 @@
                     {{user}}{{user == session.host ? ' (host)' : ''}}
                 </div>
             </div>
-            <div>{{'Cards remaining: ' + session.blueCount}}</div>
+            <div style="margin-top: 5px;">{{'Cards remaining: ' + session.blueCount}}</div>
         </div>
 
     </div>
@@ -39,6 +39,7 @@
                     [class.black]="session.board[(rowIndex * 5) + columnIndex].color == 'black'"
                     [class.revealed]="session.board[(rowIndex * 5) + columnIndex].revealed">
                     <div class="word-text">{{session.board[(rowIndex * 5) + columnIndex].word}}</div>
+                    <div class="word-border"></div>
                 </mat-card>
             </div>
         </ng-container>

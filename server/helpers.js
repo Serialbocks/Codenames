@@ -88,6 +88,8 @@ function getBoardStateFromSession(session, isCardCzar) {
         blueTeam: session.blueTeam,
         redCzar: session.redCzar,
         blueCzar: session.blueCzar,
+        redCount: session.redCount,
+        blueCount: session.blueCount,
         board: []
     };
 

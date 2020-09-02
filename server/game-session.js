@@ -192,6 +192,17 @@ function revealCard(index, username) {
     }
 
     session.board[index].revealed = !session.board[index].revealed;
+    session.redCount = 0;
+    session.blueCount = 0;
+    for(var i = 0; i < session.board.length; i++) {
+      let card = session.board[i];
+      if(card.color == "red" && !card.revealed) {
+        session.redCount++;
+      }
+      if(card.color == "blue" && !card.revealed) {
+        session.blueCount++;
+      }
+    }
     sendSessionState(session);
 }
 

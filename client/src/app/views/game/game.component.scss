@@ -72,33 +72,48 @@
         }
     }
 
-    .word.red {
-        color: red;
+    .word-border {
+        position: absolute;
+        margin-left: -7px;
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
     }
-    .word.blue {
-        color: #5656ff;
+
+    .word.revealed .word-border {
+        border: none !important;
     }
-    .word.black {
-        color: black;
+
+    .word.red .word-border {
+        border: 2px solid #9a0e2a;
     }
-    .word.white {
-        color: white;
+    .word.blue .word-border {
+        border: 2px solid #2034c9;
+    }
+    .word.black .word-border {
+        border: 2px solid #171717;
+    }
+    .word.white .word-border {
+        border: 2px solid #9a9a9a;
     }
     .word.revealed.red {
-        background-color: #ca0000;
-        color: black;
+        background: rgb(36,0,22);
+        background: linear-gradient(90deg, rgba(36,0,22,1) 0%, rgba(121,9,73,1) 35%, rgba(255,0,39,1) 100%);
+        color: white;
     }
     .word.revealed.blue {
-        background-color: #03039c;
+        background: rgb(1,0,36);
+        background: linear-gradient(90deg, rgba(1,0,36,1) 0%, rgba(35,9,121,1) 35%, rgba(16,0,255,1) 100%);
         color: white;
     }
     .word.revealed.black {
-        background-color: black;
+        background-color: #2d3436;
+        background-image: linear-gradient(90deg, #000000 0%, #2d3436 74%);
         color: white;
     }
     .word.revealed.white {
-        background-color: white;
-        color: black;
+        background-color: #2d3436;
+        background-image: linear-gradient(90deg, #2d3436 0%, #d3d3d3 74%);
     }
 
     .word:hover {
