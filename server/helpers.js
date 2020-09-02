@@ -11,6 +11,8 @@ function randomizeBoard(session) {
     session.startingTeam = Math.floor(Math.random() * 2) == 0 ? "red" : "blue";
     bagOfColors.push(session.startingTeam); // The starting team has one more card to guess
     let wordArray = [];
+    session.redCount = 0;
+    session.blueCount = 0;
     // Select 25 random words
     for(let i = 0; i < 25; i++) {
         let isCustom = false;
@@ -21,6 +23,12 @@ function randomizeBoard(session) {
         let bagOfWords = isCustom ? customWords : regularWords;
         let wordIndex = Math.floor(Math.random() * bagOfWords.length);
         let colorIndex = Math.floor(Math.random() * bagOfColors.length);
+        let colorChosen = bagOfColors[colorIndex];
+        if(colorChosen == "red") {
+            session.redCount++;
+        } else if(colorChosen == "blue") {
+            session.blueCount++;
+        }
         wordArray.push({
             word: bagOfWords[wordIndex].toUpperCase(),
             color: bagOfColors[colorIndex],
