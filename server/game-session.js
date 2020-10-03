@@ -4,6 +4,17 @@ const helpers = require("./helpers.js");
 let users = {};
 let sessions = {};
 
+function sendChatMessage(session, message) {
+    for(var i = 0; i < session.redTeam.length; i++) {
+        let redUser = users[session.redTeam[i]];
+        redUser.socket.emit('chat_message', message);
+    }
+    for(var i = 0; i < session.blueTeam.length; i++) {
+        let blueUser = users[session.blueTeam[i]];
+        blueUser.socket.emit('chat_message', message);
+    }
+}
+
 function sendSessionStateToUser(username) {
     let user = users[username];
     if(!user) return;
@@ -203,6 +214,7 @@ function revealCard(index, username) {
         session.blueCount++;
       }
     }
+    sendChatMessage(session, `${username} ${(session.board[index].revealed ? 'revealed' : 'unrevealed')} ${session.board[index].word}`);
     sendSessionState(session);
 }
 
@@ -214,14 +226,7 @@ function selectCard(index, username) {
     let card = session.board[index];
     let message = `${username} selected ${card.word}`;
 
-    for(var i = 0; i < session.redTeam.length; i++) {
-        let redUser = users[session.redTeam[i]];
-        redUser.socket.emit('user_selected', message);
-    }
-    for(var i = 0; i < session.blueTeam.length; i++) {
-        let blueUser = users[session.blueTeam[i]];
-        blueUser.socket.emit('user_selected', message);
-    }
+    sendChatMessage(session, message);
 }
 
 function makeUserCzar(data, username) {

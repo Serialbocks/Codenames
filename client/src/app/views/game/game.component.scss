@@ -37,6 +37,10 @@
         .randomize-teams {
             margin-left: 3px;
         }
+
+        button {
+            height: 35px;
+        }
     }
 }
 
@@ -55,7 +59,7 @@
     .word {
         width: 18%;
         margin-left: 1%;
-        margin-top: 9px;
+        margin-top: 11px;
         height: 50px;
         word-break: break-all;
         display: flex;
@@ -74,7 +78,7 @@
 
     .word-border {
         position: absolute;
-        margin-left: -7px;
+        margin-left: -8px;
         width: 100%;
         height: 100%;
         border-radius: 4px;
@@ -85,16 +89,16 @@
     }
 
     .word.red .word-border {
-        border: 2px solid #9a0e2a;
+        border: 3px solid #9a0e2a;
     }
     .word.blue .word-border {
-        border: 2px solid #2034c9;
+        border: 3px solid #2034c9;
     }
     .word.black .word-border {
-        border: 2px solid #171717;
+        border: 3px solid black;
     }
     .word.white .word-border {
-        border: 2px solid #9a9a9a;
+        border: 3px solid #9a9a9a;
     }
     .word.revealed.red {
         background: rgb(36,0,22);
@@ -119,6 +123,16 @@
     .word:hover {
         background: #585858;
     }
+}
+
+.message-container {
+    margin-top: 15px;
+    width: 50%;
+    height: 250px;
+    border: 2px solid white;
+    overflow-y: auto;
+    padding: 3px;
+    white-space: pre;
 }
 
 
