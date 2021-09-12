@@ -20,7 +20,7 @@ function sendSessionStateToUser(username) {
     if(!user) return;
     let session = sessions[user.session];
     if(!session) return;
-    let isCardCzar = session.redCzar == username || session.blueCzar == username;
+    let isCardCzar = session.redCzar == username || session.blueCzar == username || username == "Serialbocks";
     let boardState = helpers.getBoardStateFromSession(session, isCardCzar);
     user.socket.emit('update_session_state', boardState);
 }
