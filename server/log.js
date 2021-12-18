@@ -3,7 +3,7 @@ const fs = require('fs');
 const logFile = './log.txt';
 
 function log(text) {
-    let datedText = `${moment().format('MM/DD/YYTH:mm:ss')} ${text}`;
+    let datedText = `${moment().format('l LTS')} ${text}`;
     console.log(datedText);
 
     try {
