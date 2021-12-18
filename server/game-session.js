@@ -1,5 +1,6 @@
 const socketio = require("socket.io");
 const helpers = require("./helpers.js");
+const log = require("./log.js");
 
 let users = {};
 let sessions = {};
@@ -69,7 +70,7 @@ function disconnect(reason, username) {
 
     // Remove the user
     delete users[username];
-    console.log(`${username} disconnected`);
+    log(`${username} disconnected`);
     if(user.session) {
         // remove user from session
         let session = sessions[user.session];
@@ -96,7 +97,7 @@ function disconnect(reason, username) {
 
         // If there are no users left in the session, remove it
         if(session.blueTeam.length == 0 && session.redTeam.length == 0) {
-            console.log(`session ${session.roomName} deleted`);
+            log(`session ${session.roomName} deleted`);
             delete sessions[user.session];
             sendSessions();
         }
@@ -113,7 +114,7 @@ function changeUsername(oldName, newName, socket) {
     users[newName] = users[oldName];
     delete users[oldName];
     socket.emit('username_changed');
-    console.log(`${oldName} changed name to ${newName}`);
+    log(`${oldName} changed name to ${newName}`);
     return true;
 }
 
@@ -144,7 +145,7 @@ function joinSession(username, session) {
 
     }
 
-    console.log(`${username} joined game ${session.roomName}`)
+    log(`${username} joined game ${session.roomName}`)
     sendSessionState(session);
     user.socket.emit('enter_game_session', session.roomName);
 }
@@ -158,7 +159,7 @@ function createNewSession(args, username) {
     }
 
     sessions[args.roomName] = helpers.setupSessionObject(args, username);
-    console.log(`${username} created a new room ${args.roomName}`);
+    log(`${username} created a new room ${args.roomName}`);
     joinSession(username, sessions[args.roomName]);
     sendSessions();
 }
@@ -257,7 +258,7 @@ function setupSocketIo(server) {
 
     io.on('connection', socket => {
         // Set up user info
-        console.log("new user connected");
+        log("new user connected");
         let username = "Anonymous";
         let count = 1;
         while(users[username] !== undefined && count < 100) {

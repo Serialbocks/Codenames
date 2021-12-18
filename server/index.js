@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const gameSession = require("./game-session.js");
 const port = 4049;
 const clientPath = `../client/dist/client`;
+const log = require('./log.js');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,7 +21,7 @@ app.get("/:filename", async (req, res) => {
 });
 
 const server = app.listen(port, () => {
-	console.log(`Node server is up on port ${port}`);
+	log(`Node server is up on port ${port}`);
 });
 
 gameSession.setupSocketIo(server);
