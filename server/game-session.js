@@ -254,7 +254,15 @@ function makeUserCzar(data, username) {
 }
 
 function setupSocketIo(server) {
-    const io = socketio(server);
+    const io = socketio(server, {
+        cors: {
+            origin: "*",
+            methods: ["GET", "POST"],
+            transports: ['websocket', 'polling'],
+            credentials: true
+        },
+        allowEIO3: true
+    });
 
     io.on('connection', socket => {
         // Set up user info
