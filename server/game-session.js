@@ -255,6 +255,7 @@ function makeUserCzar(data, username) {
 
 function setupSocketIo(server) {
     const io = socketio(server, {
+        path: '/codenames/socket.io',
         cors: {
             origin: "*",
             methods: ["GET", "POST"],

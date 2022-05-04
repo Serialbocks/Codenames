@@ -14,6 +14,15 @@ app.get("/", async (req, res) => {
 	res.sendFile("index.html", {root: clientPath});
 });
 
+app.get("/codenames", async (req, res) => {
+	res.sendFile("index.html", {root: clientPath});
+});
+
+app.get("/codenames/:filename", async (req, res) => {
+	var filename = req.params.filename;
+  res.sendFile(filename, {root: clientPath});
+});
+
 // Make sure client files get served up
 app.get("/:filename", async (req, res) => {
   var filename = req.params.filename;

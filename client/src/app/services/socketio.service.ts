@@ -13,7 +13,7 @@ export class SocketioService {
   constructor() { }
 
   setupSocketConnection() {
-    this.socket = io(window.location.href);
+    this.socket = io(window.location.host, {path: '/codenames/socket.io' });
   }
 
   changeUsername(username) {
